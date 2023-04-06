@@ -1,0 +1,11 @@
+[package]
+authors.workspace = true
+description = "A command-line interface for user interaction."
+edition.workspace = true
+name = "storage-cli"
+version = "0.1.0"
+
+[dependencies]
+clap = { version = "4.2.1", features = ["cargo", "derive", "unicode", "wrap_help"] }
+storage-common = { path = "../common" }
+xstd = { path = "../xstd" }

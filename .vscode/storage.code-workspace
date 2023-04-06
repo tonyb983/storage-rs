@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"rust-analyzer.linkedProjects": [
+			".\\crates\\cli\\Cargo.toml",
+			".\\crates\\common\\Cargo.toml",
+			".\\crates\\store\\Cargo.toml",
+			".\\crates\\watcher\\Cargo.toml",
+			".\\crates\\xstd\\Cargo.toml"
+		]
+	}
+}

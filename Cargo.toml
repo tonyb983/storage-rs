@@ -1,0 +1,8 @@
+[workspace]
+members = ["crates/*"]
+
+[workspace.package]
+authors = ["Tony B. <tonyb983@gmail.com>"]
+description = "A toy storage app for practice"
+edition = "2021"
+license = "MPLv2"
