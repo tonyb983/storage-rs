@@ -23,4 +23,5 @@ mod error;
 pub use config::{Config, MaybeConfig};
 pub use error::Error;
 
+/// Result type used throughout the `storage` workspace
 pub type Result<T = (), E = Error> = std::result::Result<T, E>;
