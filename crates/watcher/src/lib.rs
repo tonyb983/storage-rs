@@ -1,8 +1,6 @@
 //! Storage-Mon
 //!
-//!  A module responsible for monitoring changes to the specified files and
-//!  directories using platform-specific APIs like ReadDirectoryChangesW on
-//!  Windows and inotify on Linux.
+//!  A module responsible for monitoring changes to specified files
 
 #![warn(
     clippy::all,
@@ -28,7 +26,7 @@ pub use watcher::{NotifyEvent, NotifyWatcher};
 
 pub(crate) use storage_common::{Config, Result};
 
-/// A trait describing the behaviour and available functions for a file watcher
+/// A trait describing the behavior and available functions for a file watcher
 pub trait FileWatcher: Send {
     /// The type of the inner configuration used by the file watcher, if any
     type InnerConfig = ();
@@ -88,6 +86,10 @@ pub trait FileWatcher: Send {
     }
 }
 
+/// Attempts to create a new file watcher
+///
+/// ## Errors
+/// Errors if the file watcher cannot be created
 pub fn create_file_watcher() -> Result<impl FileWatcher> {
     watcher::NotifyWatcher::new()
 }

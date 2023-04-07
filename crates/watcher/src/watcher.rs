@@ -13,6 +13,7 @@ use std::{
 use crossbeam_channel::{unbounded, Receiver};
 use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 
+/// Typedef for a result that produces either a [`notify::Event`] or a [`notify::Error`]
 pub type NotifyEvent = Result<notify::Event, notify::Error>;
 
 /// A [`FileWatcher`](super::FileWatcher) implementation using the [`notify`] crate
@@ -26,6 +27,10 @@ pub struct NotifyWatcher {
 }
 
 impl NotifyWatcher {
+    /// Creates a new **inactive** [`NotifyWatcher`] instance with no watched files
+    ///
+    /// ## Errors
+    /// Returns an error if the underlying [`notify::RecommendedWatcher`] cannot be created
     pub fn new() -> Result<Self> {
         let (tx, rx) = unbounded();
         let config = notify::Config::default().with_poll_interval(Duration::from_secs(5));
@@ -43,6 +48,8 @@ impl NotifyWatcher {
         Ok(file_watcher)
     }
 
+    /// Gets a list of the files that are currently on the watch list of this [`NotifyWatcher`]
+    #[must_use]
     pub fn watched_files(&self) -> Vec<String> {
         let files = match self.watched_files.lock() {
             Ok(files) => files,
@@ -54,6 +61,15 @@ impl NotifyWatcher {
         files.clone()
     }
 
+    /// Replaces the current `NotifyWatcher::watched_files` list with the given list of files.
+    ///
+    /// ## Errors
+    ///
+    /// If this `NotifyWatcher` is currently active, this method will stop the watcher
+    /// and restart ([`NotifyWatcher::start`] and [`NotifyWatcher::stop`]) so any errors will be
+    /// propogated.
+    ///
+    /// If this `NotifyWatcher` is not currently active, this method cannot fail.
     pub fn update_watched_files(&mut self, files: Vec<String>) -> Result<()> {
         let currently_watching = self.is_watching;
         if currently_watching {
@@ -69,10 +85,21 @@ impl NotifyWatcher {
         Ok(())
     }
 
+    /// Returns true if this `NotifyWatcher` is currently active (actively monitoring files)
+    #[must_use]
     pub fn is_watching(&self) -> bool {
-        self.is_watching
+        let is_empty = self
+            .watched_files
+            .lock()
+            .expect("mutex poisoned")
+            .is_empty();
+        !is_empty && self.is_watching
     }
 
+    /// Sets the polling interval for the internal [`notify::RecommendedWatcher`] instance
+    ///
+    /// ## Errors
+    /// Returns an error if the call to [`notify::RecommendedWatcher::configure`] fails
     pub fn set_poll_interval(&mut self, millis: u64) -> Result<(), notify::Error> {
         self.notify_config = self
             .notify_config
@@ -81,16 +108,25 @@ impl NotifyWatcher {
         Ok(())
     }
 
+    /// Sets the `compare_contents` option on the inner [`notify::RecommendedWatcher`] instance. Enabling
+    /// this option does incur a performance cost so use with care.
+    ///
+    /// ## Errors
+    /// Returns an error if the call to [`notify::RecommendedWatcher::configure`] fails
     pub fn set_compare_contents(&mut self, compare: bool) -> Result<(), notify::Error> {
         self.notify_config = self.notify_config.with_compare_contents(compare);
         self.watcher.configure(self.notify_config)?;
         Ok(())
     }
 
+    /// Gets the receiver for events that are generated from the watched files
+    #[must_use]
     pub fn event_stream(&self) -> &Receiver<NotifyEvent> {
         &self.events
     }
 
+    /// Gets a reference to the inner [`notify::RecommendedWatcher`] instance
+    #[allow(dead_code)]
     pub(crate) fn inner_watcher(&self) -> &RecommendedWatcher {
         &self.watcher
     }
@@ -249,7 +285,7 @@ mod tests {
 
         bg.join().expect("unable to join file-io thread");
         let event_count = counter.join().expect("unable to join counter thread");
-        println!("event count: {}", event_count);
+        println!("event count: {event_count}");
         assert_ne!(event_count, 0, "at least one event should be received");
     }
 }
