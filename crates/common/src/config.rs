@@ -144,6 +144,7 @@ impl Config {
         if !self.tracking_list_path().exists() {
             let mut tracking_file = std::fs::File::create(self.tracking_list_path())?;
             tracking_file.write_all(b"{}")?;
+            tracking_file.flush()?;
         }
 
         Ok(())

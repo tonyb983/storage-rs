@@ -8,8 +8,10 @@ version = "0.1.0"
 
 [dependencies]
 crossbeam-channel = "0.5.7"
+miette = { version = "5.7.0", features = ["fancy"] }
 notify = { version = "5.1.0", features = ["serde"] }
 storage-common = { path = "../common" }
+thiserror = "1.0.40"
 xstd = { path = "../xstd" }
 
 [dev-dependencies]

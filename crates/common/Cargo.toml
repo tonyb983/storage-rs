@@ -7,5 +7,10 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+miette = { version = "5.7.0", features = ["fancy"] }
 notify = "5.1.0"
+rmp = "0.8.11"
+rmp-serde = "1.1.1"
+serde = "1.0.159"
+thiserror = "1.0.40"
 xstd = { path = "../xstd" }

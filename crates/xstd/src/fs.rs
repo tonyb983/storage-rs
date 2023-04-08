@@ -163,3 +163,88 @@ impl WalkDirOptions {
         }
     }
 }
+
+/// Creates a new `OpenOptions` with:
+/// - `read` set to `true`
+/// - `append` set to `false`
+/// - `create` set to `false`
+/// - `write` set to `false`
+/// - `truncate` set to `false`
+#[must_use]
+pub fn read_only() -> std::fs::OpenOptions {
+    std::fs::OpenOptions::new()
+        .read(true)
+        .append(false)
+        .create(false)
+        .write(false)
+        .truncate(false)
+        .clone()
+}
+
+/// Creates a new `OpenOptions` with:
+/// - `read` set to `false`
+/// - `write` set to `true`
+/// - `append` set to `true`
+/// - `create` set to `false`
+/// - `truncate` set to `true`
+#[must_use]
+pub fn open_write_truncate() -> std::fs::OpenOptions {
+    std::fs::OpenOptions::new()
+        .read(false)
+        .write(true)
+        .append(true)
+        .create(false)
+        .truncate(true)
+        .clone()
+}
+
+/// Creates a new `OpenOptions` with:
+/// - `read` set to `false`
+/// - `write` set to `true`
+/// - `append` set to `true`
+/// - `create` set to `false`
+/// - `truncate` set to `false`
+#[must_use]
+pub fn open_write_append() -> std::fs::OpenOptions {
+    std::fs::OpenOptions::new()
+        .read(false)
+        .write(true)
+        .append(true)
+        .create(false)
+        .truncate(false)
+        .clone()
+}
+
+/// Creates a new `OpenOptions` with:
+/// - `read` set to `false`
+/// - `write` set to `true`
+/// - `append` set to `false`
+/// - `create` set to `true`
+/// - `truncate` set to `true`
+#[must_use]
+pub fn create_write_truncate() -> std::fs::OpenOptions {
+    std::fs::OpenOptions::new()
+        .read(false)
+        .write(true)
+        .append(false)
+        .create(true)
+        .truncate(true)
+        .clone()
+}
+
+/// Creates a new `OpenOptions` with:
+/// - `read` set to `false`
+/// - `write` set to `true`
+/// - `append` set to `true`
+/// - `create` set to `true`
+/// - `truncate` set to `false`
+#[must_use]
+pub fn create_write_append() -> std::fs::OpenOptions {
+    std::fs::OpenOptions::new()
+        .read(false)
+        .write(true)
+        .append(true)
+        .create(true)
+        .truncate(false)
+        .clone()
+}

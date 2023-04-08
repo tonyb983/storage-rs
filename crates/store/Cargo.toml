@@ -7,5 +7,15 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+brotli = "3.3.4"
+bytemuck = "1.13.1"
+miette = { version = "5.7.0", features = ["fancy"] }
+rmp = "0.8.11"
+rmp-serde = "1.1.1"
+serde = { version = "1.0.159", features = ["derive"] }
 storage-common = { path = "../common" }
+thiserror = "1.0.40"
 xstd = { path = "../xstd" }
+
+[dev-dependencies]
+tempfile = "3.2.0"

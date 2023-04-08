@@ -13,6 +13,8 @@ pub enum Error {
     Utf8(std::string::FromUtf8Error),
     /// Wrapper around [`notify::Error`](notify::Error)
     Notify(notify::Error),
+    /// Wrapper around various errors produced during serialization and deserialization
+    Serde(String),
     /// Other errors
     Other(String),
 }
@@ -42,6 +44,16 @@ impl From<String> for Error {
         Self::Other(err)
     }
 }
+impl From<rmp_serde::encode::Error> for Error {
+    fn from(err: rmp_serde::encode::Error) -> Self {
+        Self::Serde(err.to_string())
+    }
+}
+impl From<rmp_serde::decode::Error> for Error {
+    fn from(err: rmp_serde::decode::Error) -> Self {
+        Self::Serde(err.to_string())
+    }
+}
 
 impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -49,9 +61,13 @@ impl std::fmt::Display for Error {
             Self::Io(err) => write!(f, "io error - {err}"),
             Self::Utf8(err) => write!(f, "utf-8 error - {err}"),
             Self::Notify(err) => write!(f, "notify error - {err}"),
+            Self::Serde(err) => write!(f, "serde error - {err}"),
             Self::Other(err) => write!(f, "other error - {err}"),
         }
     }
 }
 
 impl std::error::Error for Error {}
+
+/// Result type used throughout the `storage` workspace
+pub type Result<T = (), E = Error> = std::result::Result<T, E>;

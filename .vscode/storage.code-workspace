@@ -11,6 +11,9 @@
 			".\\crates\\store\\Cargo.toml",
 			".\\crates\\watcher\\Cargo.toml",
 			".\\crates\\xstd\\Cargo.toml"
+		],
+		"cSpell.words": [
+			"xstd"
 		]
 	}
 }
