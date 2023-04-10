@@ -55,7 +55,7 @@ pub fn set_abort_on_panic() {
 /// [`set_abort_on_panic`] has been called.
 ///
 /// ## Errors
-/// Todo
+/// - Todo
 pub fn catch_unwind<F, R>(f: F) -> Result<R, Box<dyn Any + Send + 'static>>
 where
     F: FnOnce() -> R + UnwindSafe,

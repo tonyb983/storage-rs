@@ -27,7 +27,7 @@ impl FsMetadata {
     /// Creates a new [`FsMetadata`] by retrieving the [`std::fs::Metadata`]..
     ///
     /// ## Errors
-    /// This function will return an error if [`std::fs::metadata`] fails.
+    /// - This function will return an error if [`std::fs::metadata`] fails.
     pub fn from_path<P: AsRef<Path>>(path: P) -> Result<Self> {
         let path = path.as_ref();
         let meta = std::fs::metadata(path)?;
@@ -165,9 +165,8 @@ impl FileMeta {
     /// Creates a new [`FileMeta`] for the file at the given path.
     ///
     /// # Errors
-    /// This function will return an error if the given `path` does not point to a valid file.
-    ///
-    /// This function will return an error if the metadata for the file cannot be retrieved.
+    /// - This function will return an error if the given `path` does not point to a valid file.
+    /// - This function will return an error if the metadata for the file cannot be retrieved.
     pub fn new_for(path: &std::path::Path, version: FileVersion) -> Result<Self> {
         if !path.exists() {
             return Err(format!("file at path '{}' does not exist", path.display()).into());
@@ -187,7 +186,7 @@ impl FileMeta {
     /// Uses the provided `metadata` instead of retrieving it from the filesystem.
     ///
     /// ## Errors
-    /// This function will return an error if the given `path` does not point to a valid file.
+    /// - This function will return an error if the given `path` does not point to a valid file.
     pub fn new_from_metadata(
         path: impl AsRef<Path>,
         created: Timestamp,

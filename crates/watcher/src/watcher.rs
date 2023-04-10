@@ -30,7 +30,7 @@ impl NotifyWatcher {
     /// Creates a new **inactive** [`NotifyWatcher`] instance with no watched files
     ///
     /// ## Errors
-    /// Returns an error if the underlying [`notify::RecommendedWatcher`] cannot be created
+    /// - Returns an error if the underlying [`notify::RecommendedWatcher`] cannot be created
     pub fn new() -> Result<Self> {
         let (tx, rx) = unbounded();
         let config = notify::Config::default().with_poll_interval(Duration::from_secs(5));
@@ -64,12 +64,10 @@ impl NotifyWatcher {
     /// Replaces the current `NotifyWatcher::watched_files` list with the given list of files.
     ///
     /// ## Errors
-    ///
-    /// If this `NotifyWatcher` is currently active, this method will stop the watcher
+    /// - If this `NotifyWatcher` is currently active, this method will stop the watcher
     /// and restart ([`NotifyWatcher::start`] and [`NotifyWatcher::stop`]) so any errors will be
     /// propogated.
-    ///
-    /// If this `NotifyWatcher` is not currently active, this method cannot fail.
+    /// - If this `NotifyWatcher` is not currently active, this method cannot fail.
     pub fn update_watched_files(&mut self, files: Vec<String>) -> Result<()> {
         let currently_watching = self.is_watching;
         if currently_watching {
@@ -99,7 +97,7 @@ impl NotifyWatcher {
     /// Sets the polling interval for the internal [`notify::RecommendedWatcher`] instance
     ///
     /// ## Errors
-    /// Returns an error if the call to [`notify::RecommendedWatcher::configure`] fails
+    /// - Returns an error if the call to [`notify::RecommendedWatcher::configure`] fails
     pub fn set_poll_interval(&mut self, millis: u64) -> Result<(), notify::Error> {
         self.notify_config = self
             .notify_config
@@ -112,7 +110,7 @@ impl NotifyWatcher {
     /// this option does incur a performance cost so use with care.
     ///
     /// ## Errors
-    /// Returns an error if the call to [`notify::RecommendedWatcher::configure`] fails
+    /// - Returns an error if the call to [`notify::RecommendedWatcher::configure`] fails
     pub fn set_compare_contents(&mut self, compare: bool) -> Result<(), notify::Error> {
         self.notify_config = self.notify_config.with_compare_contents(compare);
         self.watcher.configure(self.notify_config)?;

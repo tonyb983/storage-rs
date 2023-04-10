@@ -20,7 +20,7 @@ use std::collections::BTreeSet;
 /// run even if the graph contains a cycle.
 ///
 /// ## Errors
-/// Error is returned if `at_enter` or `at_exit` returns an error.
+/// - Error is returned if `at_enter` or `at_exit` returns an error.
 #[allow(clippy::missing_panics_doc)]
 pub fn try_nonrecursive_dft<Graph, NodeId, AtEnter, AtExit, E>(
     graph: &Graph,
@@ -74,7 +74,7 @@ where
 /// Same as [`try_nonrecursive_dft`], but allows changes to be made to the graph.
 ///
 /// ## Errors
-/// Error is returned if `at_enter` or `at_exit` returns an error.
+/// - Error is returned if `at_enter` or `at_exit` returns an error.
 #[allow(clippy::missing_panics_doc)]
 pub fn try_nonrecursive_dft_mut<Graph, NodeId, AtEnter, AtExit, E>(
     graph: &mut Graph,
@@ -124,7 +124,7 @@ where
 /// run even if the graph contains a cycle.
 ///
 /// ## Errors
-/// Error is returned if `at_enter` or `at_exit` returns an error.
+/// - Error is returned if `at_enter` or `at_exit` returns an error.
 #[allow(clippy::missing_panics_doc)]
 pub fn nonrecursive_dft<Graph, NodeId, AtEnter, AtExit>(
     graph: &Graph,
@@ -175,7 +175,7 @@ pub fn nonrecursive_dft<Graph, NodeId, AtEnter, AtExit>(
 /// Same as [`nonrecursive_dft`], but allows changes to be made to the graph.
 ///
 /// ## Errors
-/// Error is returned if `at_enter` or `at_exit` returns an error.
+/// - Error is returned if `at_enter` or `at_exit` returns an error.
 #[allow(clippy::missing_panics_doc)]
 pub fn nonrecursive_dft_mut<Graph, NodeId, AtEnter, AtExit>(
     graph: &mut Graph,

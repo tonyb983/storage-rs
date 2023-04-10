@@ -55,7 +55,7 @@ pub fn init_logging_default(level: &str) {
 /// Panics if the thread is unable to be joined
 ///
 /// ## Errors
-/// Errors if the thread times out or is disconnected
+/// - Errors if the thread times out or is disconnected
 pub fn timeout<F, T>(duration: Duration, f: F) -> Result<T, anyhow::Error>
 where
     F: FnOnce() -> Result<T, anyhow::Error> + Send + 'static,

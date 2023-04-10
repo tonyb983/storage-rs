@@ -116,7 +116,7 @@ impl Config {
     /// Reads the tracking list file and returns a list of files/directories to track
     ///
     /// ## Errors
-    /// Errors if the tracking list file cannot be opened or read
+    /// - Errors if the tracking list file cannot be opened or read
     pub fn read_tracked_files(&self) -> super::Result<Vec<String>> {
         use std::io::BufRead;
         let mut files = Vec::new();
@@ -132,7 +132,7 @@ impl Config {
     /// the storage directory if it does not exist, and the tracking list file if it does not exist
     ///
     /// ## Errors
-    /// Errors if any call to `std::fs::create_dir_all` or `std::fs::File::create` fails
+    /// - Errors if any call to `std::fs::create_dir_all` or `std::fs::File::create` fails
     pub fn init_app_structure(&self) -> super::Result {
         use std::io::Write;
         if !self.app_dir_path().exists() {

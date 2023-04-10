@@ -31,9 +31,8 @@ impl BackupFile {
     /// Create a new (**Version 1**) backup file from the file at the given path
     ///
     /// ## Errors
-    /// Function returns an error if any io operations fail.
-    ///
-    /// Function returns an error if the serialization of [`FileMeta`] fails (this is used to get the size of the metadata for [`FileHeader`]).
+    /// - Function returns an error if any io operations fail.
+    /// - Function returns an error if the serialization of [`FileMeta`] fails (this is used to get the size of the metadata for [`FileHeader`]).
     pub fn create_new(path: impl AsRef<Path>) -> Result<Self> {
         let path = path.as_ref();
         let (raw_meta, file_bytes) = Self::extract_file_info(path)?;
@@ -56,9 +55,8 @@ impl BackupFile {
     /// It updates the [`FileMeta`] from the current metadata, bumps the version, and updates the file bytes.
     ///
     /// ## Errors
-    /// Function returns an error if any IO operations fail.
-    ///
-    /// Function returns an error if the serialization of [`FileMeta`] fails (this is used to get the size of the metadata for [`FileHeader`]).
+    /// - Function returns an error if any IO operations fail.
+    /// - Function returns an error if the serialization of [`FileMeta`] fails (this is used to get the size of the metadata for [`FileHeader`]).
     pub fn update_backup(&mut self) -> Result<()> {
         let (raw_meta, file_bytes) = Self::extract_file_info(self.meta.path())?;
         self.meta.update_from_metadata(&raw_meta);
@@ -74,11 +72,9 @@ impl BackupFile {
     /// Compresses this backup file into a [`CompressedBackupFile`] using `brotli`
     ///
     /// ## Errors
-    /// Function returns an error if any IO operations fail.
-    ///
-    /// Function returns an error if the `rmp_serde` serialization fails.
-    ///
-    /// Function returns an error if `brotli` compression fails.
+    /// - Function returns an error if any IO operations fail.
+    /// - Function returns an error if the `rmp_serde` serialization fails.
+    /// - Function returns an error if `brotli` compression fails.
     ///
     /// ## Panics
     /// Function panics if any of the various size assertions fail. These might be changed to `debug_`
@@ -163,11 +159,9 @@ impl CompressedBackupFile {
     /// Attempts to decompress this [`CompressedBackupFile`] into a [`BackupFile`]
     ///
     /// ## Errors
-    /// Function returns an error if any IO operations fail.
-    ///
-    /// Function returns an error if the `brotli` decompression fails.
-    ///
-    /// Function returns an error if the `rmp_serde` deserialization fails.
+    /// - Function returns an error if any IO operations fail.
+    /// - Function returns an error if the `brotli` decompression fails.
+    /// - Function returns an error if the `rmp_serde` deserialization fails.
     ///
     /// ## Panics
     /// Function panics if any of the various size assertions fail. These will eventually be changed to `debug_`
@@ -235,7 +229,7 @@ impl BackupManager {
     /// store folder to collect all metadata.
     ///
     /// ## Errors
-    /// `std::io::Error` if there is an error reading the backup store folder or any of the individual backup files
+    /// - `std::io::Error` if there is an error reading the backup store folder or any of the individual backup files
     pub fn new(config: Config) -> Result<Self> {
         let mut this = Self {
             config,
@@ -278,9 +272,9 @@ impl BackupManager {
 /// reading the actual file bytes.
 ///
 /// ## Errors
-/// Returns an IO error if the backup file cannot be opened, or the buffered reader fails to read
+/// - Returns an IO error if the backup file cannot be opened, or the buffered reader fails to read
 /// the specified number of bytes.
-/// Returns a Serde error if `rmp_serde` fails to deserialize the [`FileMeta`]
+/// - Returns a Serde error if `rmp_serde` fails to deserialize the [`FileMeta`]
 pub fn extract_header_and_meta(backup_path: impl AsRef<Path>) -> Result<(FileHeader, FileMeta)> {
     let mut reader = BufReader::new(read_only().open(&backup_path)?);
     let mut header_buf = vec![0; std::mem::size_of::<FileHeader>()];

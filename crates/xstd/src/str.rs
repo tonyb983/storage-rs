@@ -217,7 +217,7 @@ pub trait IndentLike {
     /// from the current [`Indent`].
     ///
     /// ## Errors
-    /// Propogates any errors that occur during formatting
+    /// - Propogates any errors that occur during formatting
     fn indented<F>(&mut self, f: F) -> fmt::Result
     where
         F: FnMut(&mut Self) -> fmt::Result;
@@ -226,7 +226,7 @@ pub trait IndentLike {
     /// in an indented context if `guard` is `true`.
     ///
     /// ## Errors
-    /// Propogates any errors that occur during formatting
+    /// - Propogates any errors that occur during formatting
     fn indented_if<F>(&mut self, guard: bool, f: F) -> fmt::Result
     where
         F: FnMut(&mut Self) -> fmt::Result;

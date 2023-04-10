@@ -37,7 +37,7 @@ impl FileHeader {
     /// accepts **only** a slice of the exact size of [`FileHeader`].
     ///
     /// ## Errors
-    /// Errors if bytemuck is unable to convert slice to [`FileHeader`] or if the slice
+    /// - Errors if bytemuck is unable to convert slice to [`FileHeader`] or if the slice
     /// is not the correct size
     pub fn try_from_bytes_exact(bytes: &[u8]) -> Result<Self> {
         let this: Self = bytemuck::try_pod_read_unaligned(bytes).map_err_to_string()?;
@@ -48,7 +48,7 @@ impl FileHeader {
     /// will return the newly created [`FileHeader`] and any remaining bytes.
     ///
     /// ## Errors
-    /// Errors if bytemuck is unable to convert slice to [`FileHeader`]
+    /// - Errors if bytemuck is unable to convert slice to [`FileHeader`]
     pub fn try_from_bytes(bytes: &[u8]) -> Result<(Self, &[u8])> {
         let (header, bytes) = try_pull_pod(bytes)?;
         Ok((header, bytes))
